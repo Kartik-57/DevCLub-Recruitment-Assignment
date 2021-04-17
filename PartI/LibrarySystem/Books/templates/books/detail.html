@@ -1,0 +1,12 @@
+<img src ="{{ book.Book_Cover }}">
+
+<h1>{{book.Book_Title}}</h1>
+<h3>{{ book.Author }}</h3>
+<h4>{{ book.Genre}}, {{ book.Publisher}}</h4>
+<h5>{{ book.ISBN }}</h5>
+
+<ul>
+    {% for summary in book.summary_set.all %}
+        <li>{{ summary.Description }} </li>
+    {% endfor %}
+</ul>

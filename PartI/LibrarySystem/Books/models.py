@@ -13,7 +13,9 @@ class Book(models.Model):
 
 class Summary(models.Model):
     Book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    
+    Description = models.CharField(max_length=1000)
 
+    def __str__(self):
+        return self.Description
 
     
