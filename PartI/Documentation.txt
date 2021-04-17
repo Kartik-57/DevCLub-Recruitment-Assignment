@@ -1,0 +1,5 @@
+- Read:- https://www.budibase.com/blog/web-application-development/
+- Used this to start from scartch: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBlmzzFcLgDhKTTfNLfX1IK
+- Video tutorial is from 2016, so it uses 'url' library but now, default library is 'Path'
+  so, that took some time and looking into to fix.
+- Spent an Hour trying to find whats wrong, it was a missing comma :/
