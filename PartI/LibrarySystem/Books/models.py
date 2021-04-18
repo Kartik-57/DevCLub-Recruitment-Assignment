@@ -18,4 +18,11 @@ class Summary(models.Model):
     def __str__(self):
         return self.Description
 
+class Availability(models.Model):
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    Available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.Available  
+
     

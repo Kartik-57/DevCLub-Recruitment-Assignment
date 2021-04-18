@@ -2,7 +2,7 @@
     <h2>Books in Library</h2>
     <ul>
         {% for book in all_books %}
-        <li><a href="{% url 'detail' book.id%}">{{ book.Book_Title }}</a></li>
+            <li><a href="{% url 'books:detail' book.id%}">{{ book.Book_Title }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
