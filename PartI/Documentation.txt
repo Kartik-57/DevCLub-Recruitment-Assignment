@@ -3,3 +3,5 @@
 - Video tutorial is from 2016, so it uses 'url' library but now, default library is 'Path'
   so, that took some time and looking into to fix.
 - Spent an Hour trying to find whats wrong, it was a missing comma :/
+- Having issues with forms, followinf tutorial and changing things to suit the library model
+  A LOT of time wasted in debugging... :(
