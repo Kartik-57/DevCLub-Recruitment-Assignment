@@ -8,4 +8,6 @@ urlpatterns = [
     url('^$', views.IndexView.as_view(), name='index'),
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
     url(r'books/add/$', views.BookCreate.as_view(), name='book-add'),
+    url(r'books/(?P<pk>[0-9]+)/$', views.BookUpdate.as_view(), name='book-update'),
+    url(r'books/(?P<pk>[0-9]+)/delete/$', views.BookDelete.as_view(), name='book-delete'),
 ]
