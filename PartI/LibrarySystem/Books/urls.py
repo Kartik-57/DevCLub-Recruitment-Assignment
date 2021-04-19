@@ -6,8 +6,8 @@ app_name = 'books'
 
 urlpatterns = [
     # /books/
-    url('^$', views.index, name='index'),
+    url('^$', views.IndexView.as_view(), name='index'),
 
     # /books/id/
-    url(r'^(?P<book_id>[0-9]+)/$', views.detail, name='detail'),
+    url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
 ]

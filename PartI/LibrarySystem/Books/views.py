@@ -1,11 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.views import generic
 from .models import Book
 
-def index(request):
-    all_books = Book.objects.all()
-    return render(request, 'books/index.html', {'all_books': all_books}) 
+class IndexView(generic.ListView):
+    template_name='books/index.html'
+    context_object_name='all_books'
 
-def detail(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'books/detail.html', {'book': book}) 
+    def get_queryset(self):
+        return Book.objects.all()
 
+class DetailView(generic.DetailView):
+    model = Book
+    template_name='books/detail.html'
