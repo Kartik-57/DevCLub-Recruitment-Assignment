@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<img src ="{{ book.Book_Cover }}">
+<img src ="{{ book.Book_Cover.url }}">
 
 <h1>{{book.Book_Title}}</h1>
 <h3>{{ book.Author }}</h3>
@@ -10,8 +10,8 @@
 <h5>{{ book.ISBN }}</h5>
 
 <ul>
-    {% for summary in book.summary_set.all %}
-        <li>{{ summary.Description }} </li>
+    {% for review in book.review_set.all %}
+        <li>{{ review.Description }} </li>
     {% endfor %}
 </ul>
 {% endblock %}
