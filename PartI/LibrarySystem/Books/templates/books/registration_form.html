@@ -10,7 +10,7 @@
             <div class="panel panel-default">
                 <div class="panel-body">
 
-                    <h3>Create a New Account</h3>
+                    <h3>Create a New Account</h3><br>
                     <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% include 'books/form-template.html' %}
@@ -18,6 +18,9 @@
                             <button type="submit" class="btn btn-success">Submit</button> 
                         </div>
                     </form>
+                </div>
+                <div class="panel-footer">
+                    Already have an account? <a href="{% url 'books:login' %}">Sign In</a>
                 </div>
             </div>
         </div>

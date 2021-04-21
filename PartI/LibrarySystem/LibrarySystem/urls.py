@@ -23,8 +23,8 @@ from books import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^books/', include('books.urls')),
-    url(r'^signup/$', views.UserFormView.as_view(), name='signup'),
-    url(r'^$', views.UserFormView.as_view(), name='signup'),
+    url(r'^signup/$', views.SignUp, name='signup'),
+    url(r'^$', views.Login, name='signup'),
 ]
 
 if settings.DEBUG:
