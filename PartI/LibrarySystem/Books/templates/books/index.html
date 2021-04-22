@@ -2,6 +2,8 @@
 {% block books_active %}active{% endblock %}
 
 {% block body %}
+
+{{ perms.books }}
 <div class="books-container container-fluid">
 
     <!-- books -->
@@ -21,6 +23,7 @@
                             <a href="{% url 'books:detail' book.id %}" class="btn btn-primary btn-sm" role="button">View Details</a>
 
                             <!-- Delete book -->
+                            {% if perms.books.delete_book %}
                             <form action="{% url 'books:book-delete' book.id %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <input type="hidden" name="book_id" value="{{ book.id }}" />
@@ -28,10 +31,12 @@
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
+                            {% endif %}
 
                             <!-- Available Book -->
                             <a href="{% url 'books:detail' book.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
                                 <span class="glyphicon glyphicon-check {% if book.Available %}active{% endif %}"></span>
+                                {% if book.Availability.Available %} <h5>Currently Borrowed</h5>{% endif %}
                             </a>                      
 
                         </div>
@@ -41,11 +46,15 @@
         {% else %}
             <div class="col-sm-12">
                 <br>
+                {% if perms.books.add_book %}
                 <a href="{% url 'books:book-add' %}">
                     <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus"></span>&nbsp; Add book
                     </button>
                 </a>
+                {% else %}
+                <h2>No Books Issued,<br>Check the Books Section.</h2>
+                {% endif %}
             </div>
         {% endif %}
     </div>

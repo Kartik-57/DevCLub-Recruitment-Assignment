@@ -7,7 +7,7 @@
 <h1>{{book.Book_Title}}</h1>
 <h3>{{ book.Author }}</h3>
 <h4>{{ book.Genre}}, {{ book.Publisher}}</h4>
-<h5>{{ book.ISBN }}</h5>
+<h5> ISBN: {{ book.ISBN }}</h5>
 
 <ul>
     {% for review in book.review_set.all %}

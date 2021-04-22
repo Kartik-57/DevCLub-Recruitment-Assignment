@@ -1,6 +1,7 @@
 from django.db import models
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 class Book(models.Model):
     Author = models.CharField(max_length=100)
@@ -9,6 +10,8 @@ class Book(models.Model):
     Genre = models.CharField(max_length=100) 
     Book_Cover = models.FileField()
     ISBN = models.CharField(max_length=20)
+    Available = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse('books:detail', kwargs={'pk': self.pk})
@@ -23,9 +26,14 @@ class Review(models.Model):
     def __str__(self):
         return self.Description
 
-class Availability(models.Model):
-    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    Available = models.BooleanField(default=True)
+class Request(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    request_date = models.DateField(null=True, blank=True)
+    lent_date = models.DateField(null=True, blank=True)
+    return_date = models.DateField(null=True, blank=True)
+    close_date = models.DateField(null=True, blank=True)
+    status = models.CharField(max_length=20, choices=(('p','pending'), ('a', 'accepted'), ('r', 'rejected')), blank=True, default='pending') 
 
     def __str__(self):
         return self.Available  

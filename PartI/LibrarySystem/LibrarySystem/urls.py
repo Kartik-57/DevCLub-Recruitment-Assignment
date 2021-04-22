@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^books/', include('books.urls')),
     url(r'^signup/$', views.SignUp, name='signup'),
-    url(r'^$', views.Login, name='signup'),
+    url(r'^$', views.Login, name='login'),
+    url(r'^library/$', views.Login, name='login'),
 ]
 
 if settings.DEBUG:

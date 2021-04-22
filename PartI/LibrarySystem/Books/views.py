@@ -5,12 +5,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import View
-from .models import Book, Availability
+from .models import Book, Request, Review
 from .forms import UserForm
+from django.contrib.auth.decorators import login_required
 
 class IndexView(generic.ListView):
     template_name='books/index.html'
-    context_object_name='all_books'
+    context_object_name='all_books' 
 
     def get_queryset(self):
         return Book.objects.all()
@@ -29,7 +30,7 @@ class BookUpdate(UpdateView):
 
 class BookDelete(DeleteView):
     model = Book
-    success_url = reverse_lazy('book:index')
+    success_url = reverse_lazy('books:index')
 
 def SignUp(request):
     form = UserForm(request.POST or None)
@@ -43,7 +44,7 @@ def SignUp(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # books = Book.objects.filter(user=request.user)
+                books = Book.objects.filter(user=request.user)
                 return render(request, 'books/index.html', {'Book': Book})
     context = {
         "form": form,
@@ -58,12 +59,20 @@ def Login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                # Book = Book.objects.filter(user=request.user)
-                return render(request, 'books/index.html', {'Book': Book})
+                user_books = Book.objects.filter(user=request.user)
+                return render(request, 'books/index.html', {'Book': user_books})
             else:
                 return render(request, 'books/login.html', {'error_message': 'Your account has been disabled'})
         else:
             return render(request, 'books/login.html', {'error_message': 'Invalid login'})
     return render(request, 'books/login.html')
+
+def Logout(request):
+    logout(request)
+    form = UserForm(request.POST or None)
+    context = {
+        "form": form,
+    }
+    return render(request, 'books/login.html', context)
 
         
