@@ -13,4 +13,8 @@ urlpatterns = [
     url(r'books/add/$', views.BookCreate.as_view(), name='book-add'),
     url(r'books/(?P<pk>[0-9]+)/$', views.BookUpdate.as_view(), name='book-update'),
     url(r'books/(?P<pk>[0-9]+)/delete/$', views.BookDelete.as_view(), name='book-delete'),
+    url(r'^manage-requests/$', views.Manage_Requests, name='manage-requests'),
+    url(r'^accept_request/$', views.accept_request, name='accept_request'),
+    url(r'^reject_request/$', views.reject_request, name='reject_request'),
+    
 ]

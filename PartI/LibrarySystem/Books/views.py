@@ -5,9 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import View
-from .models import Book, Request, Review
+from .models import Book, Request, Review, User
 from .forms import UserForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
+from datetime import time, date
 
 def index(request):
     all_books = Book.objects.all()
@@ -79,5 +80,38 @@ def Logout(request):
         "form": form,
     }
     return render(request, 'books/login.html', context)
+
+@permission_required('books.change_request')
+def Manage_Requests(request):
+    requests = Request.objects.filter(status= 'p')
+    books = Book.objects.all()
+    
+    return render(request, 'books/manage-requests.html', {'requests': requests, 'books': books})
+
+@permission_required('books.change_request')
+def accept_request(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.lent_date = date.today()
+    request_data.status = 'a'
+    if request_data.book.quantity == 1:
+        request_data.book.Available = False
+    request_data.book.quantity = request_data.book.quantity - 1
+    request_data.save()
+
+    return render(request, 'Manage_Requests')
+
+@permission_required('books.change_request')
+def reject_request(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.close_date = date.today()
+    request_data.status = 'r'
+    request_data.save()
+
+    return render(request, 'Manage_Requests')
+
+
+
 
         

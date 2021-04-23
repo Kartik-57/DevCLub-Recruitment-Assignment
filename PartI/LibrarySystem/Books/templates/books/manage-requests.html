@@ -1,0 +1,97 @@
+{% extends 'books/base.html' %}
+{% block books_active %}active{% endblock %}
+
+{% block body %}
+
+<script type="text/javascript">
+
+    function accept_request(request_data) {
+        request_id = request_data;
+        var ans = confirm("Are you sure you want to lend this book?");
+        if (ans == true) {
+        $.ajax({
+            url: "{% url 'books:accept_request' %}",
+            method: 'GET',
+            data: {
+            'request_id': request_id
+            },
+            success: function () {
+            //window.location.reload();
+            },
+            complete: function () {
+            $("#" + request_id).remove();
+            document.getElementById("flash_msg_lent").style.display = "inherit";
+            var c = $("#lcount").text();
+            $("#lcount").text(c - 1);
+            }
+        });
+        }
+    }
+
+    function reject_request(request_data) {
+        request_id = request_data;
+        var ans = confirm("Are you sure you want to reject this lend request?");
+        if (ans == true) {
+        $.ajax({
+            url: "{% url 'books:reject_request' %}",
+            method: 'GET',
+            data: {
+            'request_id': request_id
+            },
+            success: function () {
+            //window.location.reload();
+            },
+            complete: function () {
+            $("#" + request_id).remove();
+            document.getElementById("flash_msg_reject").style.display = "inherit";
+            var c = $("#lcount").text();
+            $("#lcount").text(c - 1);
+            }
+        });
+        }
+    }
+</script>
+
+<div class="alert alert-success" role="alert" id="flash_msg_lent" style="display: none;">
+  Request Accepted
+</div>
+
+<div class="alert alert-success" role="alert" id="flash_msg_reject" style="display: none;">
+  Request Rejected
+</div>
+
+<table class="table req-table">
+  <thead>
+    <tr class="t_body1">
+      <th scope="col">Book Title</th>
+      <th scope="col">Available copies</th>
+      <th scope="col">User</th>
+      <th scope="col">Request date</th>
+      <th scope="col">Action</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody class="t_body1">
+    {% for req in requests %}
+    {% if req.status == 'p' %}
+    <tr id="{{ req.id }}">
+      <td>
+        <a href="{% url 'books:detail' req.book.id %}">{{ req.book.Book_Title }}</a>
+      </td>
+      <td>{{ req.book.quantity }}</td>
+      <td>{{ req.user.username }}</td>
+      <td>{{ req.request_date }}</td>
+      <td>
+        {% if req.book.Available %}
+        <button type="button" name="" class="btn btn-primary" value="{{req.id}}" onclick="accept_request({{req.id}})">Accept Request</button>
+        {% endif %}
+        <button type="button" name="" class="btn btn-primary" value="{{req.id}}" onclick="reject_request({{req.id}})">Reject Request</button>
+      </td>
+      <td></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
