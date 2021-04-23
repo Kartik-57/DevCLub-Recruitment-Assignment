@@ -2,6 +2,15 @@
 
 {% block body %}
 
+{% if perms.books.change_book %}
+    <li class="">
+        <a href="{% url 'books:book-update' book.id %}">
+            <span class="btn btn-default" aria-hidden="true">Edit Info</span>
+        </a>
+    </li>
+{% endif %}
+
+
 <img src ="{{ book.Book_Cover.url }}">
 
 <h1>{{book.Book_Title}}</h1>
