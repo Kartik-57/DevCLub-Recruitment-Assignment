@@ -1,6 +1,6 @@
 from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.urls import reverse_lazy
@@ -9,12 +9,17 @@ from .models import Book, Request, Review
 from .forms import UserForm
 from django.contrib.auth.decorators import login_required
 
-class IndexView(generic.ListView):
-    template_name='books/index.html'
-    context_object_name='all_books' 
-
-    def get_queryset(self):
-        return Book.objects.all()
+def index(request):
+    all_books = Book.objects.all()
+    query = request.GET.get("q")
+    if query:
+        all_books = all_books.filter(
+            Q(Book_Title__icontains=query) |
+            Q(Author__icontains=query)
+        ).distinct()
+        return render(request, 'books/index.html', {'all_books': all_books})
+    else:
+        return render(request, 'books/index.html', {'all_books': all_books})
 
 class DetailView(generic.DetailView):
     model = Book
