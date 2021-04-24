@@ -2,7 +2,7 @@ from django.db import models
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.models import User
-from datetime import time
+from datetime import time, date, timedelta
 
 class Book(models.Model):
     Author = models.CharField(max_length=100)
@@ -31,11 +31,11 @@ class Review(models.Model):
 class Request(models.Model):
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    request_date = models.DateField(null=True, blank=True)
+    request_date = models.DateField(null=True, blank=True, default=date.today())
     lent_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
-    close_date = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=20, choices=(('p','pending'), ('a', 'accepted'), ('r', 'rejected')), blank=True, default='p') 
+    close_date = models.DateField(null=True, blank=True, default=date.today()+timedelta(days=30))
+    status = models.CharField(max_length=20, choices=(('p','pending'), ('a', 'accepted'), ('r', 'rejected'), ('n', 'returned')), blank=True, default='p') 
 
     def __str__(self):
         return self.book.Book_Title + ' - ' + self.user.username

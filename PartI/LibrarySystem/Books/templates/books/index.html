@@ -62,15 +62,17 @@
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </form>
-                            {% endif %}
-
+                            {% else %}
                             <!-- Available Book -->
+                            {% if user.is_authenticated %}
                             {% if book.Available %}
                             <button type="button" name="" class="btn btn-primary btn-sm btn-success" title="Send Borrow Request" value="{{book.id}}" onclick="make_request({{book.id}})">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
                             {% else %}<h5>Currently Borrowed</h5>{% endif %}
                             </a>                      
+                            {% endif %}
+                            {% endif %}
 
                         </div>
                     </div>
@@ -98,7 +100,7 @@
                     </button>
                 </a>
                 {% else %}
-                <h2>No Books Issued,<br>Check the Books Section.</h2>
+                <h2>No Books Here,<br>Check the Books Section.</h2>
                 {% endif %}
             </div>
         {% endif %}

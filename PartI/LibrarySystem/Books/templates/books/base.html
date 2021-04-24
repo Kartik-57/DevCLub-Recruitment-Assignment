@@ -42,12 +42,20 @@
         </form>
 
         <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
             {% if perms.books.add_book %}
             <li class="">
                 <a href="{% url 'books:book-add' %}">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp; Add Books
                 </a>
             </li>
+            {% else %}
+            <li class="">
+                <a href="{% url 'books:profile' %}">
+                    <span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; My Profile
+                </a>
+            </li>
+            {% endif %}
             {% endif %}
             <li class="">
                 <a href="{% url 'books:logout' %}">

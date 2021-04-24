@@ -8,7 +8,7 @@ from django.views.generic import View
 from .models import Book, Request, Review, User
 from .forms import UserForm
 from django.contrib.auth.decorators import login_required, permission_required
-from datetime import time, date
+from datetime import time, date, timedelta
 
 def index(request):
     all_books = Book.objects.all()
@@ -16,7 +16,9 @@ def index(request):
     if query:
         all_books = all_books.filter(
             Q(Book_Title__icontains=query) |
-            Q(Author__icontains=query)
+            Q(Author__icontains=query) |
+            Q(Genre__icontains=query) |
+            Q(ISBN__icontains=query) 
         ).distinct()
         return render(request, 'books/index.html', {'all_books': all_books})
     else:
@@ -104,6 +106,7 @@ def accept_request(request):
     request_data = Request.objects.get(id = request_id)
     request_data.lent_date = date.today()
     request_data.status = 'a'
+    request_data.close_date = date.today()+timedelta(days=30)
     if request_data.book.quantity == 1:
         request_data.book.Available = False
     request_data.book.quantity = request_data.book.quantity - 1
@@ -131,6 +134,29 @@ def make_request(request):
     data.save()
 
     return render(request, 'index')
+
+@login_required()
+def profile(request):
+    req_pending = Request.objects.filter(user = request.user, status = 'p').order_by("-request_date")
+    req_close =  Request.objects.filter(user = request.user, status = 'c').order_by("-close_date")
+    req_accepted =  Request.objects.filter(user = request.user, status = 'a').order_by("-lent_date")
+    req_return = Request.objects.filter(user = request.user, status = 'r').order_by("-return_date")
+    req_rejected = Request.objects.filter(user = request.user, status = 'n').order_by("-request_date")
+    context = {
+        'p': req_pending,
+        'c': req_close,
+        'a': req_accepted,
+        'n': req_return,
+        'r': req_rejected
+    }
+    return render(request, 'books/profile.html', {'context' : context})
+
+@login_required
+def cancel_request(request):
+    request_id = request.GET.get('request_id')
+    Request.objects.filter(id=request_id).delete()
+
+    return render(request, 'books/profile.html')
 
 
 

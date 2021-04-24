@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^accept_request/$', views.accept_request, name='accept_request'),
     url(r'^reject_request/$', views.reject_request, name='reject_request'),
     url(r'^make_request/$', views.make_request, name='make_request'),
+    url(r'^profile/$', views.profile, name='profile'),
+    url(r'^cancel_request/$', views.cancel_request, name='cancel_request'),
     path('admin/', admin.site.urls, name='admin'),
 ]
