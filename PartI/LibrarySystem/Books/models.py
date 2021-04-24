@@ -35,6 +35,7 @@ class Request(models.Model):
     lent_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
     close_date = models.DateField(null=True, blank=True, default=date.today()+timedelta(days=30))
+    extend = models.BooleanField(default=False)
     status = models.CharField(max_length=20, choices=(('p','pending'), ('a', 'accepted'), ('r', 'rejected'), ('n', 'returned')), blank=True, default='p') 
 
     def __str__(self):
@@ -42,7 +43,7 @@ class Request(models.Model):
 
     @property
     def is_overdue(self):
-        if self.return_date and date.today() > self.return_date:
+        if self.close_date and date.today() > self.close_date:
             return True
         return False
 

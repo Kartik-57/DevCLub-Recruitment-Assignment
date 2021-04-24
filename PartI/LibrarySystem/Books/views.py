@@ -95,10 +95,11 @@ def Logout(request):
 
 @permission_required('books.change_request')
 def Manage_Requests(request):
-    requests = Request.objects.filter(status= 'p')
+    requests = Request.objects.filter(status = 'p')
+    ext = Request.objects.filter(extend = True)
     books = Book.objects.all()
     
-    return render(request, 'books/manage-requests.html', {'requests': requests, 'books': books})
+    return render(request, 'books/manage-requests.html', {'requests': requests, 'books': books, 'ext': ext})
 
 @permission_required('books.change_request')
 def accept_request(request):
@@ -157,6 +158,34 @@ def cancel_request(request):
     Request.objects.filter(id=request_id).delete()
 
     return render(request, 'books/profile.html')
+
+@login_required
+def extend_request(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.extend = True
+    request_data.save()
+    
+    return render(request, 'books/profile.html')
+
+@permission_required('books.change_request')
+def accept_ext(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.close_date = request_data.close_date + timedelta(days=10)
+    request_data.extend = False
+    request_data.save()
+
+    return render(request, 'Manage_Requests')
+
+@permission_required('books.change_request')
+def reject_ext(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.extend = False
+    request_data.save()
+
+    return render(request, 'Manage_Requests')
 
 
 

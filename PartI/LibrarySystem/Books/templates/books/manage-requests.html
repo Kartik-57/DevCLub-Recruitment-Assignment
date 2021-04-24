@@ -50,6 +50,52 @@
         });
         }
     }
+
+    function accept_ext(request_data) {
+        request_id = request_data;
+        var ans = confirm("Are you sure you want to lend this book?");
+        if (ans == true) {
+        $.ajax({
+            url: "{% url 'books:accept_ext' %}",
+            method: 'GET',
+            data: {
+            'request_id': request_id
+            },
+            success: function () {
+            //window.location.reload();
+            },
+            complete: function () {
+            $("#" + request_id).remove();
+            document.getElementById("flash_msg_lent").style.display = "inherit";
+            var c = $("#lcount").text();
+            $("#lcount").text(c - 1);
+            }
+        });
+        }
+    }
+
+    function reject_ext(request_data) {
+        request_id = request_data;
+        var ans = confirm("Are you sure you want to reject this lend request?");
+        if (ans == true) {
+        $.ajax({
+            url: "{% url 'books:reject_ext' %}",
+            method: 'GET',
+            data: {
+            'request_id': request_id
+            },
+            success: function () {
+            //window.location.reload();
+            },
+            complete: function () {
+            $("#" + request_id).remove();
+            document.getElementById("flash_msg_reject").style.display = "inherit";
+            var c = $("#lcount").text();
+            $("#lcount").text(c - 1);
+            }
+        });
+        }
+    }
 </script>
 
 <div class="alert alert-success" role="alert" id="flash_msg_lent" style="display: none;">
@@ -90,6 +136,38 @@
       <td></td>
     </tr>
     {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+<table class="table req-table">
+  <thead>
+    <tr class="t_body1">
+      <th scope="col">Book Title</th>
+      <th scope="col">Available copies</th>
+      <th scope="col">User</th>
+      <th scope="col">Request date</th>
+      <th scope="col">Action</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody class="t_body1">
+    {% for req in ext %}
+    <tr id="{{ req.id }}">
+      <td>
+        <a href="{% url 'books:detail' req.book.id %}"><strong>{{ req.book.Book_Title }}</strong></a>
+      </td>
+      <td>{{ req.book.quantity }}</td>
+      <td>{{ req.user.username }}</td>
+      <td>{{ req.request_date }}</td>
+      <td>
+      
+        <button type="button" name="" class="btn btn-primary" value="{{req.id}}" onclick="accept_ext({{req.id}})">Accept Request</button>
+      
+        <button type="button" name="" class="btn btn-primary" value="{{req.id}}" onclick="reject_ext({{req.id}})">Reject Request</button>
+      </td>
+      <td></td>
+    </tr>
     {% endfor %}
   </tbody>
 </table>
