@@ -1,6 +1,7 @@
 from django.urls import path
 from django.conf.urls import url
 from . import views
+from django.contrib import admin
 
 app_name = 'books'
 
@@ -16,5 +17,5 @@ urlpatterns = [
     url(r'^manage-requests/$', views.Manage_Requests, name='manage-requests'),
     url(r'^accept_request/$', views.accept_request, name='accept_request'),
     url(r'^reject_request/$', views.reject_request, name='reject_request'),
-    
+    path('admin/', admin.site.urls, name='admin'),
 ]
