@@ -68,12 +68,15 @@ def Login(request):
                 user_requests = Request.objects.filter(user=request.user)
                 user_books = []
                 rejected_books = []
+                pending_books = []
                 for req in user_requests:
-                    if req.status in ['p', 'a']:
+                    if req.status in ['a']:
                         user_books.append(req.book)
+                    elif req.status in ['p']:
+                        pending_books.append(req.book)
                     else:
                         rejected_books.append(req.book)
-                return render(request, 'books/index.html', {'all_books': user_books, 'rejected': rejected_books})
+                return render(request, 'books/index.html', {'all_books': user_books, 'rejected': rejected_books, 'pending': pending_books})
             else:
                 return render(request, 'books/login.html', {'error_message': 'Your account has been disabled'})
         else:

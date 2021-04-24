@@ -37,16 +37,6 @@
 {{ perms.books }}
 <div class="books-container container-fluid">
 
-    <div class="row">
-        {% if rejected %}
-            <h3>Request(s) for:
-            {% for rej in rejected %}
-                <a href="{% url 'books:detail' rej.id %}">{{ rej.Book_Title }}</a>
-            {% endfor %}
-            has been rejected</h3>
-        {% endif %}
-    </div>
-
     <!-- books -->
     <div class="row">
         {% if all_books %}
