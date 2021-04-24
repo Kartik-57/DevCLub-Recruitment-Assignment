@@ -5,7 +5,7 @@
 {% if perms.books.change_book %}
     <li class="">
         <a href="{% url 'books:book-update' book.id %}">
-            <span class="btn btn-default" aria-hidden="true">Edit Info</span>
+            <span class="btn btn-success" aria-hidden="true">Edit Info</span>
         </a>
     </li>
 {% endif %}

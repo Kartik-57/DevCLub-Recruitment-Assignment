@@ -76,7 +76,7 @@
     {% if req.status == 'p' %}
     <tr id="{{ req.id }}">
       <td>
-        <a href="{% url 'books:detail' req.book.id %}">{{ req.book.Book_Title }}</a>
+        <a href="{% url 'books:detail' req.book.id %}"><strong>{{ req.book.Book_Title }}</strong></a>
       </td>
       <td>{{ req.book.quantity }}</td>
       <td>{{ req.user.username }}</td>

@@ -51,7 +51,7 @@ def SignUp(request):
             if user.is_active:
                 login(request, user)
                 books = Book.objects.filter(user=request.user)
-                return render(request, 'books/index.html', {'Book': Book})
+                return render(request, 'books/index.html', {'all_books': Book})
     context = {
         "form": form,
     }
@@ -65,8 +65,15 @@ def Login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                user_books = Book.objects.filter(user=request.user)
-                return render(request, 'books/index.html', {'Book': user_books})
+                user_requests = Request.objects.filter(user=request.user)
+                user_books = []
+                rejected_books = []
+                for req in user_requests:
+                    if req.status in ['p', 'a']:
+                        user_books.append(req.book)
+                    else:
+                        rejected_books.append(req.book)
+                return render(request, 'books/index.html', {'all_books': user_books, 'rejected': rejected_books})
             else:
                 return render(request, 'books/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -97,6 +104,7 @@ def accept_request(request):
     if request_data.book.quantity == 1:
         request_data.book.Available = False
     request_data.book.quantity = request_data.book.quantity - 1
+    request_data.book.save()
     request_data.save()
 
     return render(request, 'Manage_Requests')

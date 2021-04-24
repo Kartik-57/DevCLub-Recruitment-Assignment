@@ -6,6 +6,16 @@
 {{ perms.books }}
 <div class="books-container container-fluid">
 
+    <div class="row">
+        {% if rejected %}
+            <h3>Request(s) for:
+            {% for rej in rejected %}
+                <a href="{% url 'books:detail' rej.id %}">{{ rej.Book_Title }}</a>
+            {% endfor %}
+            has been rejected</h3>
+        {% endif %}
+    </div>
+
     <!-- books -->
     <div class="row">
         {% if all_books %}
@@ -34,9 +44,10 @@
                             {% endif %}
 
                             <!-- Available Book -->
+                            {% if book.Available %}
                             <a href="{% url 'books:detail' book.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-check {% if book.Available %}active{% endif %}"></span>
-                                {% if book.Availability.Available %} <h5>Currently Borrowed</h5>{% endif %}
+                                <span class="glyphicon glyphicon-ok" title="Send Borrow Request"></span>
+                            {% else %}<h5>Currently Borrowed</h5>{% endif %}
                             </a>                      
 
                         </div>
@@ -50,6 +61,11 @@
                 <a href="{% url 'books:book-add' %}">
                     <button type="button" class="btn btn-success">
                         <span class="glyphicon glyphicon-plus"></span>&nbsp; Add book
+                    </button>
+                </a>
+                <a href="{% url 'books:manage-requests' %}">
+                    <button type="button" class="btn btn-favorite">
+                        <span class="glyphicon glyphicon-pencil"></span>&nbsp; See Requests
                     </button>
                 </a>
                 {% else %}
