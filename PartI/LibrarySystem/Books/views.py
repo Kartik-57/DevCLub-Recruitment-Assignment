@@ -119,6 +119,17 @@ def reject_request(request):
 
     return render(request, 'Manage_Requests')
 
+@login_required()
+def make_request(request):
+    book_id = request.GET.get('request_id')
+
+    book_detail = Book.objects.get(id = book_id)
+    data = Request(book = book_detail, user = request.user, request_date = date.today())
+    data.save()
+
+    return render(request, 'index')
+
+
 
 
 

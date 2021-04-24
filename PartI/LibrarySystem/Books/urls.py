@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^manage-requests/$', views.Manage_Requests, name='manage-requests'),
     url(r'^accept_request/$', views.accept_request, name='accept_request'),
     url(r'^reject_request/$', views.reject_request, name='reject_request'),
+    url(r'^make_request/$', views.make_request, name='make_request'),
     path('admin/', admin.site.urls, name='admin'),
 ]

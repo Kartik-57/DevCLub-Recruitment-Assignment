@@ -3,6 +3,37 @@
 
 {% block body %}
 
+<script type="text/javascript">
+
+    function make_request(request_data) {
+        request_id = request_data;
+        var ans = confirm("Are you sure you want to issue this book?");
+        if (ans == true) {
+        $.ajax({
+            url: "{% url 'books:make_request' %}",
+            method: 'GET',
+            data: {
+            'request_id': request_id
+            },
+            success: function () {
+            //window.location.reload();
+            },
+            complete: function () {
+            $("#" + request_id).remove();
+            document.getElementById("flash_msg_issue").style.display = "inherit";
+            var c = $("#lcount").text();
+            $("#lcount").text(c - 1);
+            }
+        });
+        }
+    }
+
+</script>
+
+<div class="alert alert-success" role="alert" id="flash_msg_issue" style="display: none;">
+  Request Sent
+</div>
+
 {{ perms.books }}
 <div class="books-container container-fluid">
 
@@ -45,14 +76,15 @@
 
                             <!-- Available Book -->
                             {% if book.Available %}
-                            <a href="{% url 'books:detail' book.id %}" class="btn btn-default btn-sm btn-favorite" role="button">
-                                <span class="glyphicon glyphicon-ok" title="Send Borrow Request"></span>
+                            <button type="button" name="" class="btn btn-primary btn-sm btn-success" title="Send Borrow Request" value="{{book.id}}" onclick="make_request({{book.id}})">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </button>
                             {% else %}<h5>Currently Borrowed</h5>{% endif %}
                             </a>                      
 
                         </div>
                     </div>
-                </div>
+                </div> 
             {% endfor %}
         {% else %}
             <div class="col-sm-12">
