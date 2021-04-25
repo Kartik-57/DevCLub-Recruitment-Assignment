@@ -1,9 +1,24 @@
 - Read:- https://www.budibase.com/blog/web-application-development/
 - Used this to start from scartch: https://www.youtube.com/playlist?list=PL6gx4Cwl9DGBlmzzFcLgDhKTTfNLfX1IK
+
 - Video tutorial is from 2016, so it uses 'url' library but now, default library is 'Path'
   so, that took some time and looking into to fix.
+
 - Spent an Hour trying to find whats wrong, it was a missing comma :/
+
 - Having issues with forms, following tutorial and changing things to suit the library model
   A LOT of time wasted in debugging... :(
-- Couldn't solve the form bug, skipped for now, will come back to it later
+
+- Couldn't solve the form bug, skipped for now, will come back to it later.
+
 - Why doesn't anything work the first time around.
+
+- Time's almost up, so i'll have to do it quick.
+
+- Wasted the whole day trying to deploy but failed :(
+
+- Sorry, no documentation (Not enough time).
+
+- So, if u can, do try to check the code on a local server, spent a lot of time on it.
+
+- I will upload screenshots, hope they give a glimpse of how the webapp is.
