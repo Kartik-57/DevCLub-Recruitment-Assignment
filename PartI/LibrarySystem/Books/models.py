@@ -12,7 +12,6 @@ class Book(models.Model):
     Book_Cover = models.FileField()
     ISBN = models.CharField(max_length=20)
     Available = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(default=1)
 
     def get_absolute_url(self):
@@ -23,6 +22,7 @@ class Book(models.Model):
 
 class Review(models.Model):
     Book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     Description = models.CharField(max_length=1000)
 
     def __str__(self):
