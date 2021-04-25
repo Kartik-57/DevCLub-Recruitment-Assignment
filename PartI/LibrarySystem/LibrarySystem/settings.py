@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6sal)%!h7n$a3+&2uy3-e^%e7m5h4t%=9r^-p4e383-gbvp9hs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['library-kartik.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
