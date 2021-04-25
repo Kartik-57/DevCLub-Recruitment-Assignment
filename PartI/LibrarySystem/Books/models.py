@@ -21,7 +21,7 @@ class Book(models.Model):
         return self.Book_Title + ' - ' + self.Author
 
 class Review(models.Model):
-    Book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    Book = models.ForeignKey(Book, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     Description = models.CharField(max_length=1000)
 

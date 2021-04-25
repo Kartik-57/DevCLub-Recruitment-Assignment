@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^accept_ext/$', views.accept_ext, name='accept_ext'),
     url(r'^reject_ext/$', views.reject_ext, name='reject_ext'),
     url(r'^return_book/$', views.return_book, name='return_book'),
+    url(r'^review/add/$', views.ReviewCreate.as_view(), name='review-add'),
     path('admin/', admin.site.urls, name='admin'),
 ]

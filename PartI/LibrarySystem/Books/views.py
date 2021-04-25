@@ -203,6 +203,10 @@ def return_book(request):
 
     return render(request, 'Manage_Requests')
 
+class ReviewCreate(CreateView):
+    model = Review
+    fields = ['Description', 'user', 'Book']
+
 
 
 

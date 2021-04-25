@@ -18,6 +18,12 @@
 <h4>{{ book.Genre}}, {{ book.Publisher}}</h4>
 <h5> ISBN: {{ book.ISBN }}</h5><br><br>
 
+
+{% comment %} <a href="{% url 'books:review-add' %}">
+    <button type="button" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus"></span>&nbsp; Add Review
+    </button>
+</a> {% endcomment %}
 <ul>
     {% for review in book.review_set.all %}
         <li>{{ review.user.username }} : {{ review.Description }} </li><br>
