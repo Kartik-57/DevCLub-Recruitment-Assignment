@@ -143,6 +143,7 @@ def profile(request):
     req_accepted =  Request.objects.filter(user = request.user, status = 'a').order_by("-lent_date")
     req_return = Request.objects.filter(user = request.user, status = 'r').order_by("-return_date")
     req_rejected = Request.objects.filter(user = request.user, status = 'n').order_by("-request_date")
+    user = request.user
     context = {
         'p': req_pending,
         'c': req_close,
@@ -150,7 +151,7 @@ def profile(request):
         'n': req_return,
         'r': req_rejected
     }
-    return render(request, 'books/profile.html', {'context' : context})
+    return render(request, 'books/profile.html', {'context' : context, 'user':user})
 
 @login_required
 def cancel_request(request):
