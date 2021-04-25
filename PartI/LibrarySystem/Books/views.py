@@ -96,10 +96,11 @@ def Logout(request):
 @permission_required('books.change_request')
 def Manage_Requests(request):
     requests = Request.objects.filter(status = 'p')
+    lent = Request.objects.filter(status = 'a').order_by("-lent_date")
     ext = Request.objects.filter(extend = True)
     books = Book.objects.all()
     
-    return render(request, 'books/manage-requests.html', {'requests': requests, 'books': books, 'ext': ext})
+    return render(request, 'books/manage-requests.html', {'requests': requests, 'books': books, 'ext': ext, 'lent':lent})
 
 @permission_required('books.change_request')
 def accept_request(request):
@@ -187,6 +188,21 @@ def reject_ext(request):
     request_data.save()
 
     return render(request, 'Manage_Requests')
+
+@permission_required('books.change_request')
+def return_book(request):
+    request_id = request.GET.get('request_id')
+    request_data = Request.objects.get(id = request_id)
+    request_data.return_date = date.today()
+    request_data.status = 'n'
+    if request_data.book.quantity == 0:
+        request_data.book.Available = True
+    request_data.book.quantity = request_data.book.quantity + 1
+    request_data.book.save()
+    request_data.save()
+
+    return render(request, 'Manage_Requests')
+
 
 
 

@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^extend_request/$', views.extend_request, name='extend_request'),
     url(r'^accept_ext/$', views.accept_ext, name='accept_ext'),
     url(r'^reject_ext/$', views.reject_ext, name='reject_ext'),
+    url(r'^return_book/$', views.return_book, name='return_book'),
     path('admin/', admin.site.urls, name='admin'),
 ]
