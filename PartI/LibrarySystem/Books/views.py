@@ -30,11 +30,11 @@ class DetailView(generic.DetailView):
 
 class BookCreate(CreateView):
     model = Book
-    fields = ['Author', 'Publisher', 'Book_Title', 'Genre', 'ISBN', 'Book_Cover']
+    fields = ['Author', 'Publisher', 'Book_Title', 'Genre', 'ISBN', 'Book_Cover', 'quantity']
 
 class BookUpdate(UpdateView):
     model = Book
-    fields = ['Author', 'Publisher', 'Book_Title', 'Genre', 'ISBN', 'Book_Cover']
+    fields = ['Author', 'Publisher', 'Book_Title', 'Genre', 'ISBN', 'Book_Cover', 'quantity']
 
 class BookDelete(DeleteView):
     model = Book
@@ -52,8 +52,8 @@ def SignUp(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                books = Book.objects.filter(user=request.user)
-                return render(request, 'books/index.html', {'all_books': Book})
+                books = Book.objects.all()
+                return render(request, 'books/index.html', {'all_books': books})
     context = {
         "form": form,
     }

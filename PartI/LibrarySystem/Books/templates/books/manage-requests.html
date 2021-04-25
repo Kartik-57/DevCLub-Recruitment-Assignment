@@ -140,7 +140,7 @@
       <th scope="col">Available copies</th>
       <th scope="col">User</th>
       <th scope="col">Request date</th>
-      <th scope="col">Action</th>
+      <th scope="col">Borrow Requests</th>
       <th></th>
     </tr>
   </thead>
@@ -173,8 +173,8 @@
       <th scope="col">Book Title</th>
       <th scope="col">Available copies</th>
       <th scope="col">User</th>
-      <th scope="col">Request date</th>
-      <th scope="col">Action</th>
+      <th scope="col">Close date</th>
+      <th scope="col">Extension Requests</th>
       <th></th>
     </tr>
   </thead>
@@ -186,7 +186,7 @@
       </td>
       <td>{{ req.book.quantity }}</td>
       <td>{{ req.user.username }}</td>
-      <td>{{ req.request_date }}</td>
+      <td>{{ req.close_date }}</td>
       <td>
       
         <button type="button" name="" class="btn btn-primary" value="{{req.id}}" onclick="accept_ext({{req.id}})">Accept Request</button>
